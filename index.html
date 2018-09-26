@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SpotiPi</title>
+</head>
+<body>
+</body>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script type="text/javascript">
+window.onSpotifyWebPlaybackSDKReady = () => {
+  const token = 'BQCLYsc43SRfgx_3Z-AvIktUfHcorsz506AgrwPTCHf4FKi5NEMKxEwdPP-_4jrCNe4sy91Dfatz0_BPijAC1kTKsT13UQMkqctRERHixwdDpGbjzho5uOQaV6KCrP1FtYFJmihJnGOzgtONfFb9lgyoKRUR-QQBFJho9IWb';
+  const player = new Spotify.Player({
+    name: 'SpotiPi',
+    getOAuthToken: cb => { cb(token); }
+  });
+
+  // Error handling
+  player.addListener('initialization_error', ({ message }) => { console.error(message); });
+  player.addListener('authentication_error', ({ message }) => { console.error(message); });
+  player.addListener('account_error', ({ message }) => { console.error(message); });
+  player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+  // Playback status updates
+  player.addListener('player_state_changed', state => { console.log(state); });
+
+  // Ready
+  player.addListener('ready', ({ device_id }) => {
+    console.log('Ready with Device ID', device_id);
+  });
+
+  // Not Ready
+  player.addListener('not_ready', ({ device_id }) => {
+    console.log('Device ID has gone offline', device_id);
+  });
+
+  // Connect to the player!
+  player.connect();
+};
+</script>
+
+</html>
